@@ -10,11 +10,7 @@ forgit::warn() { command printf "%b[Warn]%b %s\n" '\e[0;33m' '\e[0m' "$@" >&2; }
 
 # determine installation path
 if [[ -n "$ZSH_VERSION" ]]; then
-    # shellcheck disable=2277,2296,2299
-    0="${ZERO:-${${0:#$ZSH_ARGZERO}:-${(%):-%N}}}"
-    # shellcheck disable=2277,2296,2298
-    0="${${(M)0:#/*}:-$PWD/$0}"
-    FORGIT_INSTALL_DIR="${0:h}"
+    FORGIT_INSTALL_DIR="${0:a:h}"
 elif [[ -n "$BASH_VERSION" ]]; then
     FORGIT_INSTALL_DIR="$(command dirname -- "${BASH_SOURCE[0]}")"
 else
