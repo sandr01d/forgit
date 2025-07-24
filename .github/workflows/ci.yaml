@@ -57,3 +57,17 @@ jobs:
 
     - name: Test fish
       run: fish conf.d/forgit.plugin.fish
+
+  format:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Check format
+      uses: mfinelli/setup-shfmt@v3
+    - run: shfmt --indent 4 --case-indent --simplify -d .

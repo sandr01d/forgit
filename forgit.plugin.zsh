@@ -5,13 +5,16 @@
 # These shell built-ins prevent the wrong commands getting executed in case a
 # user added a shell alias with the same name.
 
-forgit::error() { command printf "%b[Error]%b %s\n" '\e[0;31m' '\e[0m' "$@" >&2; builtin return 1; }
+forgit::error() {
+    command printf "%b[Error]%b %s\n" '\e[0;31m' '\e[0m' "$@" >&2
+    builtin return 1
+}
 forgit::warn() { command printf "%b[Warn]%b %s\n" '\e[0;33m' '\e[0m' "$@" >&2; }
 
 # determine installation path
-if [[ -n "$ZSH_VERSION" ]]; then
+if [[ -n $ZSH_VERSION ]]; then
     FORGIT_INSTALL_DIR="${0:a:h}"
-elif [[ -n "$BASH_VERSION" ]]; then
+elif [[ -n $BASH_VERSION ]]; then
     FORGIT_INSTALL_DIR="$(command dirname -- "${BASH_SOURCE[0]}")"
 else
     forgit::error "Only zsh and bash are supported"
@@ -24,9 +27,10 @@ FORGIT="$FORGIT_INSTALL_DIR/bin/git-forgit"
 # export all user-defined FORGIT variables to make them available in git-forgit
 unexported_vars=0
 # Set posix mode in bash to only get variables, see #256.
-[[ -n "$BASH_VERSION" ]] && builtin set -o posix
+[[ -n $BASH_VERSION ]] && builtin set -o posix
 builtin set | command awk -F '=' '{ print $1 }' | command grep FORGIT_ | while builtin read -r var; do
-    if ! builtin export | command grep -q "\(^$var=\|^export $var=\)"; then        if [[ $unexported_vars == 0 ]]; then
+    if ! builtin export | command grep -q "\(^$var=\|^export $var=\)"; then
+        if [[ $unexported_vars == 0 ]]; then
             forgit::warn "Config options have to be exported in future versions of forgit."
             forgit::warn "Please update your config accordingly:"
         fi
@@ -37,7 +41,7 @@ builtin set | command awk -F '=' '{ print $1 }' | command grep FORGIT_ | while b
     fi
 done
 builtin unset unexported_vars
-[[ -n "$BASH_VERSION" ]] && builtin set +o posix
+[[ -n $BASH_VERSION ]] && builtin set +o posix
 
 # register shell functions
 forgit::log() {
@@ -154,7 +158,7 @@ forgit::attributes() {
 
 # register aliases
 # shellcheck disable=SC2139
-if [[ -z "$FORGIT_NO_ALIASES" ]]; then
+if [[ -z $FORGIT_NO_ALIASES ]]; then
 
     builtin export forgit_add="${forgit_add:-ga}"
     builtin export forgit_reset_head="${forgit_reset_head:-grh}"
