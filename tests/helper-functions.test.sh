@@ -16,6 +16,15 @@ function test_forgit_get_files_from_diff_line() {
         actual+=( "$line" )
     done < <( echo -n "$input" | _forgit_get_files_from_diff_line | xargs -0 -n 1 echo )
 
+    echo "args: $#"
+    printf "'%s\n' " "$@"
+
+    echo "expected: ${#expected[@]}"
+    printf "'%s'\n" "${expected[@]}"
+
+    echo "actual: ${#actual[@]}"
+    printf "'%s'\n" "${actual[@]}"
+
     # Compare array sizes
     assert_same "${#expected[@]}" "${#actual[@]}"
 
