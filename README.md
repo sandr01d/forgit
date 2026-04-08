@@ -31,6 +31,7 @@ It's **lightweight** and **easy to use**.
 ------------
 
 **`ga`** - Interactive `git add` selector:
+**`ga`** - Interactive `git add` selector:
 
 ![screenshot](https://raw.githubusercontent.com/wfxr/i/master/forgit-ga.png)
 
