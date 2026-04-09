@@ -32,6 +32,7 @@ jobs:
     - name: Install prerequisites
       shell: bash
       run: |
+        # shellcheck disable=SC2193
         if [[ "${{ matrix.os }}" == macos* ]]; then
           brew install zsh fish shellcheck
         elif [[ "${{ matrix.os }}" == ubuntu* ]]; then
@@ -78,3 +79,16 @@ jobs:
             run: npm install -g @commitlint/cli @commitlint/config-conventional
           - name: Validate PR commits
             run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+
+  # Lint GitHub Actions workflows
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Download actionlint
+        id: get_actionlint
+        run: bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+        shell: bash
+      - name: Check workflow files
+        run: ${{ steps.get_actionlint.outputs.executable }} -color
+        shell: bash

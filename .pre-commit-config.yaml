@@ -20,3 +20,7 @@ repos:
         (curl -fsSL https://wfxr.mit-license.org/2017/license.txt && echo) > ./LICENSE &&
             git add ./LICENSE || { git checkout ./LICENSE && exit 1; }
       '
+- repo: https://github.com/rhysd/actionlint
+  rev: v1.7.12
+  hooks:
+  - id: actionlint
