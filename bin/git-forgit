@@ -11,6 +11,7 @@
 #
 # This gives users the choice to set aliases inside of their git config instead
 # of their shell config if they prefer.
+# test
 
 REQUIRED_FZF_VERSION="0.60.0"
 
